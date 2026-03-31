@@ -12,6 +12,6 @@ COPY apps/web ./apps/web
 
 RUN npm run build --workspace @ged/web
 
-EXPOSE 4173
+EXPOSE 5174
 
 CMD ["npm", "run", "preview", "--workspace", "@ged/web"]
