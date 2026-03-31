@@ -1,0 +1,13 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+const roles = ['ADMIN', 'EDITOR', 'VIEWER'];
+export function UserManager({ users, onInvite, onUpdateRole, onRemove, }) {
+    const [form, setForm] = useState({ email: '', firstName: '', lastName: '', role: 'VIEWER' });
+    return (_jsxs("div", { className: "space-y-6", children: [_jsxs(Card, { className: "p-6", children: [_jsx("h2", { className: "font-display text-2xl font-bold text-ink", children: "Invite user" }), _jsxs("div", { className: "mt-4 grid gap-3 md:grid-cols-4", children: [_jsx(Input, { value: form.email, onChange: (event) => setForm((current) => ({ ...current, email: event.target.value })), placeholder: "jane@acme.local" }), _jsx(Input, { value: form.firstName, onChange: (event) => setForm((current) => ({ ...current, firstName: event.target.value })), placeholder: "Jane" }), _jsx(Input, { value: form.lastName, onChange: (event) => setForm((current) => ({ ...current, lastName: event.target.value })), placeholder: "Doe" }), _jsx("select", { className: "rounded-2xl border border-[hsl(var(--border))] bg-white px-4 py-3", value: form.role, onChange: (event) => setForm((current) => ({ ...current, role: event.target.value })), children: roles.map((role) => (_jsx("option", { value: role, children: role }, role))) })] }), _jsx(Button, { className: "mt-4", onClick: async () => {
+                            await onInvite(form);
+                            setForm({ email: '', firstName: '', lastName: '', role: 'VIEWER' });
+                        }, disabled: !form.email.trim() || !form.firstName.trim() || !form.lastName.trim(), children: "Invite user" })] }), _jsx("div", { className: "space-y-4", children: users.map((entry) => (_jsx(Card, { className: "p-5", children: _jsxs("div", { className: "flex flex-col gap-4 md:flex-row md:items-center md:justify-between", children: [_jsxs("div", { children: [_jsxs("p", { className: "text-lg font-semibold text-ink", children: [entry.user.firstName, " ", entry.user.lastName] }), _jsx("p", { className: "text-sm text-slate-500", children: entry.user.email })] }), _jsxs("div", { className: "flex flex-wrap gap-2", children: [_jsx("select", { className: "rounded-2xl border border-[hsl(var(--border))] bg-white px-4 py-2", value: entry.role, onChange: (event) => onUpdateRole(entry.userId, event.target.value), children: roles.map((role) => (_jsx("option", { value: role, children: role }, role))) }), _jsx(Button, { variant: "danger", onClick: () => onRemove(entry.userId), children: "Remove" })] })] }) }, entry.id))) })] }));
+}

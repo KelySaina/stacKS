@@ -1,0 +1,20 @@
+{
+  "name": "ged-app",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace @ged/api\" \"npm run dev --workspace @ged/web\"",
+    "build": "npm run build --workspace @ged/api && npm run build --workspace @ged/web",
+    "lint": "npm run lint --workspace @ged/api && npm run lint --workspace @ged/web",
+    "prisma:generate": "npm run prisma:generate --workspace @ged/api",
+    "prisma:migrate": "npm run prisma:migrate --workspace @ged/api",
+    "seed": "npm run seed --workspace @ged/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

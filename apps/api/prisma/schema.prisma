@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id            String       @id @default(uuid())
+  name          String
+  slug          String       @unique
+  bucket        String       @unique
+  storageQuota  BigInt       @default(5368709120)
+  storageUsed   BigInt       @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  users         TenantUser[]
+  documents     Document[]
+  folders       Folder[]
+  shares        Share[]
+  auditLogs     AuditLog[]
+}
+
+model User {
+  id            String       @id @default(uuid())
+  email         String       @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  isSuperAdmin  Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  tenants       TenantUser[]
+  auditLogs     AuditLog[]
+}
+
+model TenantUser {
+  id        String   @id @default(uuid())
+  role      Role     @default(VIEWER)
+  tenantId  String
+  userId    String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId])
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model Folder {
+  id         String      @id @default(uuid())
+  name       String
+  path       String
+  parentId   String?
+  tenantId   String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  parent     Folder?     @relation("FolderTree", fields: [parentId], references: [id])
+  children   Folder[]    @relation("FolderTree")
+  tenant     Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  documents  Document[]
+
+  @@unique([tenantId, path])
+}
+
+model Document {
+  id          String             @id @default(uuid())
+  name        String
+  mimeType    String
+  size        BigInt
+  objectKey   String
+  version     Int                @default(1)
+  tags        String[]           @default([])
+  metadata    Json?              @default("{}")
+  folderId    String?
+  tenantId    String
+  uploadedBy  String
+  deletedAt   DateTime?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  folder      Folder?            @relation(fields: [folderId], references: [id])
+  tenant      Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  versions    DocumentVersion[]
+  shares      Share[]
+
+  @@index([tenantId, folderId])
+}
+
+model DocumentVersion {
+  id          String    @id @default(uuid())
+  version     Int
+  objectKey   String
+  size        BigInt
+  uploadedBy  String
+  documentId  String
+  createdAt   DateTime  @default(now())
+  document    Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, version])
+}
+
+model Share {
+  id             String    @id @default(uuid())
+  token          String    @unique @default(uuid())
+  documentId     String
+  tenantId       String
+  createdBy      String
+  expiresAt      DateTime
+  password       String?
+  maxDownloads   Int?
+  downloadCount  Int       @default(0)
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  document       Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  tenant         Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, isActive])
+}
+
+model AuditLog {
+  id          String    @id @default(uuid())
+  action      String
+  resource    String
+  resourceId  String?
+  details     Json?
+  userId      String
+  tenantId    String
+  ipAddress   String?
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id])
+  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt])
+  @@index([userId, createdAt])
+}
