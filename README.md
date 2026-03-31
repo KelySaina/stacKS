@@ -99,7 +99,7 @@ npm run seed
 npm run dev
 ```
 
-Frontend: `http://localhost:5173`
+Frontend: `http://localhost:5174`
 
 API: `http://localhost:3001/api`
 
