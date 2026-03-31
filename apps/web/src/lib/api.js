@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth-store';
-const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001/api';
+const fallbackApiUrl = `${window.location.protocol}//${window.location.hostname}:3001/api`;
+const baseURL = import.meta.env.VITE_API_URL ?? fallbackApiUrl;
 const rawClient = axios.create({
     baseURL,
     withCredentials: true,
