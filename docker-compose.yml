@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: ged
       POSTGRES_PASSWORD: gedpassword
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -22,8 +22,8 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9002:9000"
+      - "9003:9001"
     volumes:
       - minio_data:/data
 
@@ -39,7 +39,7 @@ services:
     environment:
       DATABASE_URL: postgresql://ged:gedpassword@postgres:5432/ged
       PORT: 3000
-      WEB_URL: http://localhost:4173
+      WEB_URL: http://localhost:4174
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
       MINIO_ACCESS_KEY: minioadmin
@@ -52,7 +52,7 @@ services:
       PRESIGNED_DOWNLOAD_TTL: 3600
       PRESIGNED_UPLOAD_TTL: 900
     ports:
-      - "3000:3000"
+      - "3001:3000"
 
   web:
     build:
@@ -61,7 +61,7 @@ services:
     depends_on:
       - api
     ports:
-      - "4173:4173"
+      - "4174:4173"
 
 volumes:
   postgres_data:

@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: process.env.WEB_URL ?? 'http://localhost:5173',
+    origin: process.env.WEB_URL ?? 'http://localhost:5174',
     credentials: true,
   });
   app.use(cookieParser());
@@ -23,7 +23,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.setGlobalPrefix('api');
 
-  const port = Number(process.env.PORT ?? 3000);
+  const port = Number(process.env.PORT ?? 3001);
   await app.listen(port);
   console.log(`GED API listening on http://localhost:${port}/api`);
 }

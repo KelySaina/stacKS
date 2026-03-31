@@ -14,7 +14,7 @@ import type {
   TenantUsersItem,
 } from '@/lib/types';
 
-const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api';
+const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001/api';
 
 const rawClient = axios.create({
   baseURL,

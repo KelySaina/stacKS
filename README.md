@@ -45,11 +45,11 @@ stacKS/
 Copy `.env.example` to `.env` if you want local overrides.
 
 ```env
-DATABASE_URL=postgresql://ged:gedpassword@localhost:5432/ged
-PORT=3000
-WEB_URL=http://localhost:5173
+DATABASE_URL=postgresql://ged:gedpassword@localhost:5433/ged
+PORT=3001
+WEB_URL=http://localhost:5174
 MINIO_ENDPOINT=localhost
-MINIO_PORT=9000
+MINIO_PORT=9002
 MINIO_ACCESS_KEY=minioadmin
 MINIO_SECRET_KEY=minioadmin
 MINIO_USE_SSL=false
@@ -101,11 +101,11 @@ npm run dev
 
 Frontend: `http://localhost:5173`
 
-API: `http://localhost:3000/api`
+API: `http://localhost:3001/api`
 
-MinIO console: `http://localhost:9001`
+MinIO console: `http://localhost:9003`
 
-PostgreSQL: `localhost:5432`
+PostgreSQL: `localhost:5433`
 
 ## Docker compose with app services
 
@@ -117,11 +117,11 @@ docker-compose up --build
 
 This starts:
 
-- PostgreSQL on `5432`
-- MinIO API on `9000`
-- MinIO console on `9001`
-- API on `3000`
-- Web preview on `4173`
+- PostgreSQL on `5433`
+- MinIO API on `9002`
+- MinIO console on `9003`
+- API on `3001`
+- Web preview on `4174`
 
 ## Seeded accounts
 
@@ -186,5 +186,5 @@ This starts:
 ## Notes
 
 - All authenticated non-public routes require tenant access when a tenant is part of the path.
-- The frontend expects the API on `http://localhost:3000/api` by default.
+- The frontend expects the API on `http://localhost:3001/api` by default.
 - The seed script also creates the sample MinIO buckets so uploads work immediately after seeding.
