@@ -44,6 +44,8 @@ stacKS/
 
 Copy `.env.example` to `.env` if you want local overrides.
 
+The API workspace scripts load the root `.env` automatically, so `npm run prisma:migrate --workspace @ged/api -- --name init` works without exporting `DATABASE_URL` manually.
+
 ```env
 DATABASE_URL=postgresql://ged:gedpassword@localhost:5433/ged
 PORT=3001

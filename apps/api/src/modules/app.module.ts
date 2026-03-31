@@ -15,7 +15,10 @@ import { BigIntInterceptor } from '../common/interceptors/bigint.interceptor.js'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env', '../../.env'],
+    }),
     PrismaModule,
     StorageModule,
     SecurityModule,
