@@ -38,7 +38,7 @@ services:
         condition: service_started
     environment:
       DATABASE_URL: postgresql://ged:gedpassword@postgres:5432/ged
-      PORT: 3000
+      PORT: 3001
       WEB_URL: http://localhost:5174
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
@@ -52,7 +52,7 @@ services:
       PRESIGNED_DOWNLOAD_TTL: 3600
       PRESIGNED_UPLOAD_TTL: 900
     ports:
-      - "3001:3000"
+      - "3001:3001"
 
   web:
     build:

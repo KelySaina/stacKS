@@ -13,6 +13,6 @@ COPY apps/api ./apps/api
 RUN npm run prisma:generate --workspace @ged/api
 RUN npm run build --workspace @ged/api
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["npm", "run", "start", "--workspace", "@ged/api"]
