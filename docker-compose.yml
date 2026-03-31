@@ -39,7 +39,7 @@ services:
     environment:
       DATABASE_URL: postgresql://ged:gedpassword@postgres:5432/ged
       PORT: 3000
-      WEB_URL: http://localhost:4174
+      WEB_URL: http://localhost:5174
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
       MINIO_ACCESS_KEY: minioadmin
@@ -61,7 +61,7 @@ services:
     depends_on:
       - api
     ports:
-      - "4174:4173"
+      - "5174:4173"
 
 volumes:
   postgres_data:

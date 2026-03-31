@@ -123,7 +123,7 @@ This starts:
 - MinIO API on `9002`
 - MinIO console on `9003`
 - API on `3001`
-- Web preview on `4174`
+- Web preview on `5174`
 
 ## Seeded accounts
 
