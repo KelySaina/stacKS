@@ -22,10 +22,15 @@ export function formatDate(value?: string | Date | null) {
     return 'N/A';
   }
 
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return 'N/A';
+  }
+
   return new Intl.DateTimeFormat('en', {
     dateStyle: 'medium',
     timeStyle: 'short',
-  }).format(new Date(value));
+  }).format(date);
 }
 
 export function initials(firstName?: string, lastName?: string) {
