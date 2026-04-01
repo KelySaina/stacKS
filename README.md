@@ -50,6 +50,7 @@ The API workspace scripts load the root `.env` automatically, so `npm run prisma
 DATABASE_URL=postgresql://ged:gedpassword@localhost:5433/ged
 PORT=3001
 WEB_URL=http://localhost:5174
+VITE_API_URL=http://localhost:3001/api
 MINIO_ENDPOINT=localhost
 MINIO_PORT=9002
 MINIO_ACCESS_KEY=minioadmin
@@ -116,6 +117,8 @@ To run the app services through compose as well:
 ```bash
 docker-compose up --build
 ```
+
+Set `VITE_API_URL` in the root `.env` before building the web image for non-local deployments. Example: `VITE_API_URL=https://your-server.example.com/api`.
 
 This starts:
 
