@@ -38,7 +38,7 @@ services:
         condition: service_started
     environment:
       DATABASE_URL: postgresql://ged:gedpassword@postgres:5432/ged
-      PORT: 3001
+      PORT: ${API_PORT:-3001}
       WEB_URL: http://localhost:5174
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
@@ -51,15 +51,12 @@ services:
       JWT_REFRESH_EXPIRES_IN: 7d
       PRESIGNED_DOWNLOAD_TTL: 3600
       PRESIGNED_UPLOAD_TTL: 900
-    ports:
-      - "3001:3001"
-
   web:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
       args:
-        VITE_API_URL: ${VITE_API_URL:-http://localhost:3001/api}
+        VITE_API_URL: ${VITE_API_URL:-/api}
     depends_on:
       - api
     ports:

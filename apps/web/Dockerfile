@@ -1,4 +1,4 @@
-FROM node:22-alpine AS base
+FROM node:22-alpine AS build
 
 WORKDIR /app
 
@@ -15,6 +15,11 @@ COPY apps/web ./apps/web
 
 RUN npm run build --workspace @ged/web
 
+FROM nginx:1.27-alpine
+
+COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/apps/web/dist /usr/share/nginx/html
+
 EXPOSE 5174
 
-CMD ["npm", "run", "preview", "--workspace", "@ged/web"]
+CMD ["nginx", "-g", "daemon off;"]

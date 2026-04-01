@@ -50,7 +50,8 @@ The API workspace scripts load the root `.env` automatically, so `npm run prisma
 DATABASE_URL=postgresql://ged:gedpassword@localhost:5433/ged
 PORT=3001
 WEB_URL=http://localhost:5174
-VITE_API_URL=http://localhost:3001/api
+API_PORT=3001
+VITE_API_URL=/api
 MINIO_ENDPOINT=localhost
 MINIO_PORT=9002
 MINIO_ACCESS_KEY=minioadmin
@@ -118,15 +119,15 @@ To run the app services through compose as well:
 docker-compose up --build
 ```
 
-Set `VITE_API_URL` in the root `.env` before building the web image for non-local deployments. Example: `VITE_API_URL=https://your-server.example.com/api`.
+The production web container proxies `/api` to the internal `api` service over the Docker network, so the API does not need a public host port. Keep `VITE_API_URL=/api` unless you intentionally want the browser to call a public API URL directly.
 
 This starts:
 
 - PostgreSQL on `5433`
 - MinIO API on `9002`
 - MinIO console on `9003`
-- API on `3001`
-- Web preview on `5174`
+- Private API on the internal Docker network
+- Public web server on `5174`
 
 ## Seeded accounts
 
@@ -191,5 +192,5 @@ This starts:
 ## Notes
 
 - All authenticated non-public routes require tenant access when a tenant is part of the path.
-- The frontend expects the API on `http://localhost:3001/api` by default.
+- The frontend uses same-origin `/api` by default and relies on the web container to proxy requests to the internal API service.
 - The seed script also creates the sample MinIO buckets so uploads work immediately after seeding.
